@@ -1,0 +1,114 @@
+.modal {
+  background: #fff;
+  color: $color-main;
+  height: 100%;
+  position: relative;
+  width: 100%;
+  z-index: 1000;
+  padding: 0 22px 48px;
+  line-height: 15px;
+  @include desktop {
+    width: 619px;
+    height: auto;
+    padding: 30px 30px 32px;
+  }
+
+  &__close {
+    position: absolute;
+    right: 21px;
+    top: 21px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+
+    &:before, &:after {
+      position: absolute;
+      content: '';
+      display: inline-block;
+      height: 24px;
+      width: 1px;
+      left: 8px;
+      top: -3px;
+      background-color: $color-main;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__content {
+    @include desktop {
+      display: grid;
+      grid-template-columns: 331px 214px;
+      grid-gap: 15px;
+    }
+  }
+
+  &__img {
+    margin: 0 -22px 25px;
+    @include desktop {
+      margin: 0 0 14px;
+    }
+
+    &-item {
+      height: 205px;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0 auto;
+    }
+  }
+
+  &__comment {
+
+    padding-bottom: 20px;
+    @include desktop {
+      grid-row: span 2;
+    }
+
+    &-item {
+      margin-bottom: 20px;
+    }
+
+    &-time {
+      color: $color-grey;
+      margin-bottom: 5px;
+
+    }
+  }
+
+  &__form {
+    &-input {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.modal-bg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  @include transition(visibility 0s, opacity .3s);
+
+  &.in {
+    visibility: visible;
+
+    &.show {
+      opacity: 1;
+      z-index: 1000;
+    }
+  }
+}
+

@@ -1,0 +1,3 @@
+User-Agent: *
+Disallow: /
+Host: site.ru or https://site.ru

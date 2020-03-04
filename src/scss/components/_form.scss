@@ -1,0 +1,17 @@
+.form {
+  &__input {
+    background-color: transparent;
+    color: $color-main;
+    border-radius: 3px;
+    border: 1px solid $color-grey-light;
+    height: 30px;
+    padding: 7px 11px 8px;
+    width: 100%;
+    &::placeholder {
+      color: $color-grey-light
+    }
+    &.error {
+      border-color: #ee2926;
+    }
+  }
+}

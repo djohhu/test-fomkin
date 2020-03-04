@@ -1,0 +1,11 @@
+@mixin transition($args...) {
+  transition: $args;
+}
+
+/* media */
+
+@mixin desktop {
+  @media (min-width: #{$container-desktop}) {
+    @content;
+  }
+}

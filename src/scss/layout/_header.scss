@@ -1,0 +1,15 @@
+.header {
+  &__wrapper{
+    padding-top: 15px;
+    padding-bottom: 30px;
+  }
+
+  &__title {
+    font-size: 36px;
+    line-height: 42px;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: $font-secondary;
+  }
+
+}
