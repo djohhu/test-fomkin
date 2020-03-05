@@ -1,6 +1,7 @@
-"use strict";
+import '../scss/main.scss';
+
 (function () {
-    const $modal = document.querySelector('.modal-bg');
+    const $modal = document.querySelector('.modal-overlay');
     const $photoWrapper = document.getElementById('photo');
     const $body = document.querySelector('body');
     const $formComment = document.getElementById('form-comment');
@@ -37,6 +38,7 @@
     function openModal() {
         $modal.classList.add('in', 'show');
         $body.style.overflow = 'hidden';
+
     }
 
     function closeModal() {
