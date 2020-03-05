@@ -4,6 +4,7 @@
     const $photoWrapper = document.getElementById('photo');
     const $body = document.querySelector('body');
     const $formComment = document.getElementById('form-comment');
+    const $modalComments = document.querySelector('.modal__comment');
 
     const getInfoImage = event => {
         const id = event.target.dataset.id;
@@ -12,24 +13,26 @@
             .then(item => {
                 const $modalImg = document.querySelector('.modal__img-item');
                 const inputHiddenId = document.getElementById('modal-photo-id');
-                const $modalComments = document.querySelector('.modal__comment');
-
-                const commentHtml = comment => `
-              <div class="modal__comment-item">
-                <div class="modal__comment-time">${new Date(comment.date).toLocaleDateString()}</div>
-                <div class="modal__comment-text">${comment.text}</div>
-              </div>
-            `;
-                if (item.comments.length !== 0) {
-                    $modalComments.innerHTML = item.comments.map(commentHtml).join('')
-                } else {
-                    $modalComments.textContent = 'Нет комментариев'
-                }
+                addComment(item.comments);
                 $modalImg.style.backgroundImage = `url(${item.url})`;
                 inputHiddenId.value = item.id;
             })
             .then(openModal);
     };
+
+    function addComment(comments) {
+        if (comments.length !== 0) {
+            const commentHtml = comment => `
+              <div class="modal__comment-item">
+                <div class="modal__comment-time">${new Date(comment.date).toLocaleDateString()}</div>
+                <div class="modal__comment-text">${comment.text}</div>
+              </div>
+            `;
+            $modalComments.insertAdjacentHTML('afterbegin', comments.map(commentHtml).join(''))
+        } else {
+            $modalComments.textContent = 'Нет комментариев'
+        }
+    }
 
     function openModal() {
         $modal.classList.add('in', 'show');
@@ -44,7 +47,8 @@
         }, 300);
 
         const $modalInput = document.querySelectorAll('.modal__form-input');
-        $modalInput.forEach(el => el.classList.remove('error'))
+        $modalInput.forEach(el => el.classList.remove('error'));
+        $modalComments.innerHTML = '';
 
     }
 
@@ -88,28 +92,17 @@
 
         }
         if (errors.length === 0) {
-            // const data = new FormData();
-            // data.append( "", JSON.stringify( objValue ) );
-            // fetch(`https://boiling-refuge-66454.herokuapp.com/images/${id.value}/comments`,
-            //     {
-            //         method: "POST",
-            //         headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            //         body: JSON.stringify()
-            //     })
-            //     .then(function(res){ return res.json(); })
-            //     .then(function(data){ alert( JSON.stringify( data ) ) })
-            const request = new XMLHttpRequest();
-            const url = `https://boiling-refuge-66454.herokuapp.com/images/${id.value}/comments`;
-            const params = `name: ${objValue.name}&comment: ${objValue.comment}`;
-            request.open("POST", url, true);
-            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            request.addEventListener("readystatechange", () => {
-
-                if(request.readyState === 4 && request.status === 200) {
-                    console.log(request.responseText);
-                } else {       console.log(request.responseText); }
-            });
-            request.send(params);
+            fetch(`https://boiling-refuge-66454.herokuapp.com/images/${id.value}/comments`,
+                {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json;charset=UTF-8'},
+                    body: JSON.stringify(objValue)
+                })
+                .then(data => {
+                    console.log('Отправлено', data);
+                    addComment([{text: objValue.comment, date: new Date().toLocaleDateString()}])
+                })
+                .catch(error => console.error('Ошибка', error));
         }
 
     };
